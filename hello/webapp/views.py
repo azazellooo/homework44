@@ -10,16 +10,15 @@ class SecretNumbers:
 numbers = SecretNumbers
 secret_numbers = numbers.generate_numbers(4)
 
+results = []
 def guess_numbers(secret, actual):
     guessed_bulls = 0
     guessed_cows = 0
-    for i in actual:
-        if len(str(i)) != 1:
-            context = {
-                'result': 'Numbers must be less than 10!'
-            }
+
     if secret == actual:
         context = {'result': 'You got it right!!!'}
+    elif len(set(actual)) < 4:
+        context = {'result': 'Numbers must be unique!!!'}
     elif len(actual) != 4:
         context = {'result': 'Enter only 4 numbers!!!'}
     else:
@@ -40,6 +39,7 @@ def index_view(request):
         try:
             numbers = list(map(int, request.POST.get('numbers').split(' ')))
             result = guess_numbers(secret_numbers, numbers)
+            results.append(result['result'])
             print(numbers)
             print(secret_numbers)
         except ValueError:
@@ -48,5 +48,8 @@ def index_view(request):
             result = {'result': 'Enter numbers'}
         return render(request, 'index.html', result)
 
+def results_view(request):
+    context = {'items': results}
+    return render(request, 'results.html', context)
 
 # Create your views here.
