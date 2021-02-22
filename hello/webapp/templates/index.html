@@ -5,12 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        h1 {
+        h4 {
             color: pink;
         }
     </style>
 </head>
 <body>
-    <h1>my first django app</h1>
+    <p>Guess 4 numbers. Enter them separated with spaces:</p>
+    <form method="POST" action="/">
+        {% csrf_token %}
+        <input type="text" name="numbers"/>
+        <input type="submit" value="Send"/>
+    </form>
+    <h4>{{ result }}</h4>
+
 </body>
 </html>
